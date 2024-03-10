@@ -4,8 +4,8 @@ from datetime import datetime
 from django.db import DatabaseError, OperationalError
 from django.utils.timezone import make_aware
 
-from location_service.models import Event, Latitude, Longitude
-from location_service.serializers import (
+from events.models import Event, Latitude, Longitude
+from events.serializers import (
     LatitudeSerializer,
     LongitudeSerializer,
     EventSerializer,

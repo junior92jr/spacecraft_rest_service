@@ -2,7 +2,7 @@ import json
 
 from django.core.management.base import BaseCommand, CommandError
 
-from location_service.utils.import_utils import (
+from events.utils.import_utils import (
     import_events_data,
     import_latitudes_data,
     import_longitudes_data

@@ -1,14 +1,18 @@
-import os
-
+from os import getenv as os_getenv, path as os_path  # noqa
 from pathlib import Path
+
+from django.core.management.utils import get_random_secret_key
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-a!fb52b25$w8l_46si!kydy^g6=kmy3-+lyc_7c$cu^-uq2$a!'
+SECRET_KEY = os_getenv(
+    "SECRET_KEY", get_random_secret_key()
+)
 
-DEBUG = True
+DEBUG = os_getenv("DEBUG", "true").lower() in ["True", "true", "1", "yes", "y"]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os_getenv("ALLOWED_HOSTS", "localhost").split(",")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'location_service',
+    'events',
 ]
 
 MIDDLEWARE = [
@@ -31,7 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'spacecraft_rest_service.urls'
+ROOT_URLCONF = 'spacecraft_api.urls'
 
 TEMPLATES = [
     {
@@ -49,16 +53,20 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'spacecraft_rest_service.wsgi.application'
+WSGI_APPLICATION = 'spacecraft_api.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os_getenv("POSTGRES_DB", "postgres"),
+        "USER": os_getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os_getenv("POSTGRES_PASSWORD", "postgres"),
+        "HOST": os_getenv("POSTGRES_HOST", "db"),
+        "PORT": os_getenv("POSTGRES_PORT", "5432"),
     }
 }
 
@@ -120,7 +128,7 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "level": "INFO",
             "propagate": False,
         },
     },

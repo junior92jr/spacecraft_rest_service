@@ -1,8 +1,8 @@
 from django.test import TestCase
 from rest_framework.exceptions import ValidationError
 
-from location_service.models import Event, Latitude, Longitude
-from location_service.utils.import_utils import (
+from events.models import Event, Latitude, Longitude
+from events.utils.import_utils import (
     import_events_data,
     import_latitudes_data,
     import_longitudes_data,

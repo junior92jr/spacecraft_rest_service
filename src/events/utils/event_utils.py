@@ -2,7 +2,7 @@ import logging
 
 from django.db import DatabaseError, OperationalError
 
-from location_service.models import Event, Latitude, Longitude
+from events.models import Event, Latitude, Longitude
 
 
 logger = logging.getLogger(__name__)

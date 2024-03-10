@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from location_service.utils.event_utils import calculate_coordinates
+from events.utils.event_utils import calculate_coordinates
 
 
 class Command(BaseCommand):

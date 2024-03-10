@@ -1,12 +1,12 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from location_service.utils.import_utils import (
+from events.utils.import_utils import (
     import_events_data,
     import_latitudes_data,
     import_longitudes_data,
 )
-from location_service.utils.event_utils import calculate_coordinates
+from events.utils.event_utils import calculate_coordinates
 
 from .resources import (
     TEST_EVENTS_OK,
