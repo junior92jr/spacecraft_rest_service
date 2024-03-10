@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  backend:
+  web:
     container_name: "django-app"
     build:
       context: .
@@ -13,11 +13,11 @@ services:
     ports:
       - "${APP_PORT}:${APP_PORT}"
     depends_on:
-      db:
+      web-db:
         condition: service_healthy
     command: [ "/bin/sh", "/app/deployment/scripts/backend/start.sh" ]
 
-  db:
+  web-db:
     image: postgres:16.2-alpine
     container_name: "postgres-db"
     hostname: "${POSTGRES_HOST:-db}"
