@@ -1,6 +1,35 @@
 # Spacecraft Rest Service
 
-The project is to design and implement a Restfull API that provides the location of an event.
+The project is to design and implement a Restfull API that provides the location of an event. Either an event by ID or a list of all events.
+
+My approach is to store the data in the database and use sql queries for dates to find the closest date of the incident with the Position. 
+
+This can be calculated on the fly but since events only happen once at an specific position I decided it is better to store them in the database.
+
+## The algorithm
+
+The approached I used was to use Django/postgres datetimefield operations to find the closest timestamp from Latitude and Longitude to the Event date.
+
+The idea is to find one object immediately following and one immediately preceding the event datetime and to return one of them.
+
+Best-case scenario dates are the same; otherwise, we compare which is closer to the target by substrancting and comparing which one has less error `abs(greater_date.timestamp - target_date) < abs(less_date.timestamp - target_date)`. 
+
+```bash
+    def get_closest_to_target_date(self, target_date):
+        """Retrieves the position with the closest target date."""
+
+        greater_date = self.filter(
+            timestamp__gte=target_date).order_by("timestamp").first()
+        less_date = self.filter(
+            timestamp__lte=target_date).order_by("-timestamp").first()
+
+        if greater_date and less_date:
+            return greater_date if abs(
+                greater_date.timestamp - target_date) < abs(
+                    less_date.timestamp - target_date) else less_date
+        else:
+            return greater_date or less_date
+```
 
 ## API Endpoints
 
